@@ -4,8 +4,10 @@ from mimason.srv import *
 import rospy
 
 def handle_countChars(req):
-    print "Returning number of characters in " + req
-    return countCharsResponse(len(req))
+    print "so very here"
+    print req.s
+    # print "Returning number of characters in " + req.s
+    return countCharsResponse(len(req.s))
 
 def countChars_server():
     rospy.init_node('countChars_server')
