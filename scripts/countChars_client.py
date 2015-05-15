@@ -25,4 +25,5 @@ if __name__ == "__main__":
         print usage()
         sys.exit(1)
     print "Requesting %s counts"%s
-    print countChars_client(s)
+    print "There are " + str(countChars_client(s)) + " characters in '" + s
+    "' "

@@ -56,6 +56,7 @@ find_package( OpenCV REQUIRED )
  add_service_files(
   FILES
     countChars.srv
+    recognizeObjects.srv
  )
 
 ## Generate actions in the 'action' folder
