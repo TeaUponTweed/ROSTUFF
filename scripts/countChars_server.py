@@ -2,6 +2,7 @@
 
 from mimason.srv import *
 import rospy
+from cv_bridge import CvBridge, CvBridgeError
 
 def handle_countChars(req):
     print "so very here"

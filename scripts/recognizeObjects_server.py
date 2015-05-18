@@ -6,6 +6,7 @@ import os
 import cv2
 import scipy.io as sio
 import time
+import numpy as np
 from cv_bridge import CvBridge, CvBridgeError
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import PointCloud
@@ -40,30 +41,29 @@ class Recognizer:
         #get updated image and point cloud
         self.update_im = True
         self.update_pc = True
+        self.count += 1
 
         #wait some time amd ensure image and PointCloud updated
         while not (self.update_pc and self.update_im):
+            print 'in loop'
             time.sleep(.1)
         cv2.imwrite('image_to_recognize.png',self.cv_image)
         # os.system("matlab demo_sds.m")
-        os.system("cd src/mimason/scripts && ls")
+        os.system("ls")
         rr = sio.loadmat('recognition_results.mat')
-        mask = rr['mask'][:,:,0]
-        categories = rr['categories'][:,0]
-        confidence = rr['confidence'][:,0]
-        self.count += 1
-        return recognizeObjectsResponse(self.bridge.cv2_to_imgmsg(cv_image, "mono8"),categories,confidence)
-
-
-
-
-
+        # mask = rr['mask']/float(np.shape(mask)[0]
+        mask = np.zeros((8,8))
+        print np.shape(mask)
+        categories = rr['categories']
+        confidence = rr['confidence']
+        return recognizeObjectsResponse(self.bridge.cv2_to_imgmsg(mask, "mono8"),categories,confidence)
 
 
 def main(args):
   r = Recognizer()
-  rospy.init_node('recognizer_server')
-  s = rospy.Service('recognizer', recognizeObjects, r.recognize)
+  print "initializing"
+  rospy.init_node('recognizeObjects_server')
+  s = rospy.Service('recognizeObjects', recognizeObjects, r.recognize)
   print "Ready to recognize"
   rospy.spin()
 
