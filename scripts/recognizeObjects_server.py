@@ -18,6 +18,7 @@ class Recognizer:
         self.update_pc = False
         self.cv_image = None
         self.cloud = None
+        self.count = 0
         # rospy.init_node('recognizer')
         # rospy.Subscriber("redo_recognition", bool, self.update_redo)
         rospy.Subscriber("cloud", PointCloud, self.update_point_cloud)
@@ -44,11 +45,13 @@ class Recognizer:
         while not (self.update_pc and self.update_im):
             time.sleep(.1)
         cv2.imwrite('image_to_recognize.png',self.cv_image)
-        os.system("matlab demo_sds.m")
+        # os.system("matlab demo_sds.m")
+        os.system("cd src/mimason/scripts && ls")
         rr = sio.loadmat('recognition_results.mat')
         mask = rr['mask'][:,:,0]
         categories = rr['categories'][:,0]
         confidence = rr['confidence'][:,0]
+        self.count += 1
         return recognizeObjectsResponse(self.bridge.cv2_to_imgmsg(cv_image, "mono8"),categories,confidence)
 
 
@@ -62,6 +65,7 @@ def main(args):
   rospy.init_node('recognizer_server')
   s = rospy.Service('recognizer', recognizeObjects, r.recognize)
   print "Ready to recognize"
+  rospy.spin()
 
 if __name__ == '__main__':
     main(sys.argv)
