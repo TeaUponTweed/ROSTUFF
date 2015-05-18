@@ -1,3 +1,4 @@
-sensor_msgs/Image i
 ---
-sensor_msgs/Image mask
+Image i
+int8[] categories
+float64[] scores
