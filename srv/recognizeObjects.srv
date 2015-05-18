@@ -1,4 +1,4 @@
 ---
-Image i
+sensor_msgs/Image i
 int8[] categories
 float64[] scores

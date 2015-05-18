@@ -71,7 +71,7 @@ add_message_files(
  generate_messages(
    DEPENDENCIES
    sensor_msgs
-    std_msgs
+  std_msgs
 
 )
 
