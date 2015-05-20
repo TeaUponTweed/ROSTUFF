@@ -1,5 +1,2 @@
 ---
-sensor_msgs/Image mask
-sensor_msgs/PointCloud point_cloud
-int8[] categories
-float64[] scores
+int64 count
